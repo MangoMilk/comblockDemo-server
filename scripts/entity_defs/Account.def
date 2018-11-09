@@ -1,0 +1,48 @@
+<root>
+	<Properties>
+        <!--自己拥有的avatar的数据库id-->
+        <avatarDBID>
+            <!--数据库的id是UINT64类型-->
+            <Type>          DBID      </Type>
+            <!--该属性只在Base上有-->
+            <Flags>         BASE        </Flags>
+            <Default>                   </Default>
+            <!--需要持久化保存-->
+            <Persistent>    true        </Persistent>
+        </avatarDBID>
+
+	</Properties>
+
+	<BaseMethods>
+        <createCell>
+            <!--场景的CELL ENTITYCALL-->
+            <Arg>   ENTITYCALL      </Arg>
+        </createCell>
+        <!--暴露给客户端的进入游戏的方法-->
+        <enterGame>
+            <!--暴露给客户端的方法，需要声明该属性-->
+            <Exposed/>
+        </enterGame>
+	</BaseMethods>
+
+	<CellMethods>
+
+	</CellMethods>
+
+    <ClientMethods>
+        <!--进入游戏失败的回调-->
+        <onEnterGameFailed>
+            <!--错误代码-->
+            <Arg>	        INT8	        </Arg>
+        </onEnterGameFailed>
+        <!--进入游戏成功的回调-->
+        <onEnterGameSuccess>
+            <!--无参-->
+        </onEnterGameSuccess>
+        <!--FirstEntity hello的回调-->
+        <onFirstEntityHello>
+            <Arg>           UNICODE         </Arg>
+        </onFirstEntityHello>
+    </ClientMethods>
+
+</root>

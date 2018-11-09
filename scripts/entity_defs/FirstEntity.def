@@ -1,0 +1,76 @@
+<root>
+    <!-- 易变属性同步控制
+		三种方式：
+		1、总是同步到客户端：如<position/>或没有显式设置的
+		2、不同步：设置为0即可，如<pitch> 0 </pitch>
+		3、设置距离：如<roll> 10 </roll>
+	-->
+    <Volatile>
+        <position/> <!-- 位置 -->
+        <!-- 描述方向的三要素 -->
+        <yaw/>
+        <pitch/>
+        <roll/>
+        <!-- 优化VolatileInfo，关于VolatileInfo可以参考API或Manual文档，优化后服务器在确定实体在地面时（navigate）将不同步实体的Y坐标，客户端需要判断实体isOnGround，如果实体在地面则需要做贴地计算。
+			在高层建筑内寻路可能需要关闭优化，让服务器同步Y，这样才能精确计算上下层位置。
+			(不填默认为true)
+		-->
+        <optimized>true</optimized>
+    </Volatile>
+
+    <!--属性定义-->
+	<Properties>
+        <!--角色的名字-->
+        <name>
+            <!--unicode作为名字类型-->
+            <Type>              UNICODE     </Type>
+            <!--长度设置为20-->
+            <DatabaseLength>    20          </DatabaseLength>
+            <!--cell、所有client都有该属性，并由cell向allclients同步-->
+            <Flags>             BASE </Flags>
+            <Default>                       </Default>
+            <!--需要持久化保存-->
+            <Persistent>        false        </Persistent>
+        </name>
+
+	</Properties>
+
+    <!--base上的方法申明-->
+	<BaseMethods>
+        <!--创建cell部分的实体。
+        这是服务器之间通讯的方法，在def中申明之后才可以在不同服务器之间通过定义的方法进行通讯
+        -->
+        <createCell>
+            <!--场景的CELL ENTITYCALL-->
+            <Arg>   ENTITYCALL      </Arg>
+        </createCell>
+
+        <!--say hello指令-->
+        <hello>
+            <!--hello的内容-->
+            <Arg>   UNICODE         </Arg>
+        </hello>
+	</BaseMethods>
+
+    <!--cell上的方法申明-->
+	<CellMethods>
+        <!--say hello指令-->
+        <hello>
+            <!--该参数可以让此方法暴露给客户端调用-->
+            <Exposed/>
+            <!--hello的内容-->
+            <Arg>   UNICODE         </Arg>
+        </hello>
+	</CellMethods>
+
+    <!--客户端上的方法申明-->
+    <ClientMethods>
+        <!--广播某玩家的hello事件-->
+        <onHello>
+            <!--say hello的实体id-->
+            <Arg>   ENTITY_ID       </Arg>
+            <!--hello的内容-->
+            <Arg>   UNICODE         </Arg>
+        </onHello>
+    </ClientMethods>
+</root>
